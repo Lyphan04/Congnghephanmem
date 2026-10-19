@@ -1,3 +1,4 @@
+
 <?php
 if (empty($_SESSION['admin'])) { header('Location: ' . SITE_URL . '/admin/login'); exit; }
 $admin      = $_SESSION['admin'];
