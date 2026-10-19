@@ -1,4 +1,4 @@
-<?php
+  <?php
 /**
  * Điều Khiển Liên Hệ
  * Xử lý form liên hệ và lưu tin nhắn của khách hàng
