@@ -400,6 +400,11 @@ document.querySelectorAll('.deals-tab-btn').forEach(function(btn) {
 
         <!-- ───────── SIDEBAR ───────── -->
         <aside class="pl-sidebar">
+            <button type="button" class="pl-filter-toggle" id="pl-filter-toggle"
+                    aria-expanded="false" aria-controls="pl-filter-panel">
+                <span><i class="fas fa-sliders-h me-2" aria-hidden="true"></i>Bộ lọc sản phẩm</span>
+                <i class="fas fa-chevron-down" aria-hidden="true"></i>
+            </button>
             <?php
             $clearParams = array_diff_key($qParams, array_flip(['categories', 'price_ranges', 'min_price', 'max_price', 'page']));
             $clearUrl    = $baseUrl . (!empty($clearParams) ? '?' . http_build_query($clearParams) : '');
@@ -419,7 +424,7 @@ document.querySelectorAll('.deals-tab-btn').forEach(function(btn) {
                        value="<?= htmlspecialchars($v) ?>">
                 <?php }} ?>
 
-                <div class="pl-sidebar-card">
+                <div class="pl-sidebar-card" id="pl-filter-panel">
                     <div class="pl-sidebar-head">
                         <i class="fas fa-sliders-h me-2"></i>Bộ lọc sản phẩm
                     </div>
@@ -538,6 +543,19 @@ document.querySelectorAll('.deals-tab-btn').forEach(function(btn) {
 
 <script>
 // Auto-submit filter form on checkbox change
+const filterToggle = document.getElementById('pl-filter-toggle');
+const filterPanel = document.getElementById('pl-filter-panel');
+if (filterToggle && filterPanel) {
+    filterToggle.addEventListener('click', function() {
+        const expanded = this.getAttribute('aria-expanded') !== 'true';
+        this.setAttribute('aria-expanded', String(expanded));
+        filterPanel.classList.toggle('open', expanded);
+    });
+    if (filterPanel.querySelector('input[type="checkbox"]:checked')) {
+        filterToggle.setAttribute('aria-expanded', 'true');
+        filterPanel.classList.add('open');
+    }
+}
 document.querySelectorAll('#pl-filter-form input[type="checkbox"]').forEach(function(cb) {
     cb.addEventListener('change', function() {
         document.getElementById('pl-filter-form').submit();
