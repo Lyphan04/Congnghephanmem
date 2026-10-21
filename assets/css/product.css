@@ -491,6 +491,8 @@ html.dark .price-old { color: var(--color-text-3); }
     gap: 5px;
 }
 
+.pl-filter-toggle { display: none; }
+
 /* ── Responsive ── */
 @media (max-width: 1100px) {
     .pl-product-grid,
@@ -505,6 +507,21 @@ html.dark .price-old { color: var(--color-text-3); }
 
     .pl-sidebar {
         position: static;
+    }
+
+    .pl-filter-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--color-border);
+        border-radius: 10px;
+        background: var(--color-surface);
+        color: var(--color-text);
+        font: inherit;
+        font-weight: 600;
+        margin-bottom: 12px;
     }
 
     .pl-sidebar-card {

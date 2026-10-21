@@ -1,7 +1,7 @@
 # TechStore - URL Rewriting
 
 RewriteEngine On
-RewriteBase /laptop_store-main/
+RewriteBase /congnghephanmem-main/
 
 # Redirect to HTTPS (uncomment in production)
 # RewriteCond %{HTTPS} off
@@ -40,4 +40,4 @@ Options -Indexes
 </IfModule>
 
 # Custom error pages
-ErrorDocument 404 /laptop_store-main/index.php?url=404
+ErrorDocument 404 /congnghephanmem-main/index.php?url=404

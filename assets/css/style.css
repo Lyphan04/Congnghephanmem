@@ -898,7 +898,7 @@ html.dark .product-cat { color: var(--color-text-3); }
     -webkit-box-orient: vertical;
     min-height: calc(13.5px * 1.4 * 2); /* = 37.8px — always 2 lines */
 }
-.product-name a { color: var(--color-text); }
+.product-name a { color: var(--color-text); overflow-wrap: anywhere; }
 .product-name a:hover { color: var(--color-primary); }
 
 .product-rating {
