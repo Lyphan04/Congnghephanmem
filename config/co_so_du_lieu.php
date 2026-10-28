@@ -6,7 +6,7 @@
 
 // ===== Site Configuration =====
 define('SITE_NAME', 'VQSTORE');
-define('SITE_URL', 'http://localhost/laptop_store');
+define('SITE_URL', 'http://localhost/congnghephanmem-main');
 define('ADMIN_URL', SITE_URL . '/admin');
 define('UPLOAD_URL', SITE_URL . '/tai_len');
 define('ASSETS_URL', SITE_URL . '/assets');

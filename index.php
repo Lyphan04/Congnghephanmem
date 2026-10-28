@@ -20,6 +20,16 @@ $action = $segments[1] ?? 'index';
 $param  = $segments[2] ?? null;
 $param2 = $segments[3] ?? null;
 
+// Unknown actions must render the same friendly 404 as unknown routes.
+$invokeAction = static function ($controller, $method, ...$args) {
+    if (str_starts_with($method, '__') || !is_callable([$controller, $method])) {
+        http_response_code(404);
+        require ROOT_PATH . '/views/loi_404.php';
+        return;
+    }
+    $controller->$method(...$args);
+};
+
 // ============================================================
 //  ĐỊNH TUYẾN (ROUTING)
 // ============================================================
@@ -62,44 +72,40 @@ try {
 
         case 'cart':
             require_once 'controllers/DieuKhienGioHang.php';
-            (new DieuKhienGioHang())->$action($param);
+            $invokeAction(new DieuKhienGioHang(), $action, $param);
             break;
 
         case 'checkout':
             require_once 'controllers/DieuKhienThanhToan.php';
-            (new DieuKhienThanhToan())->$action();
+            $invokeAction(new DieuKhienThanhToan(), $action);
             break;
 
         case 'order':
             require_once 'controllers/DieuKhienDonHang.php';
             $ctrl = new DieuKhienDonHang();
-            $ctrl->$action($param);
+            $invokeAction($ctrl, $action, $param);
             break;
 
         case 'account':
             require_once 'controllers/DieuKhienTaiKhoan.php';
-            (new DieuKhienTaiKhoan())->$action();
+            $invokeAction(new DieuKhienTaiKhoan(), $action);
             break;
 
         case 'auth':
             require_once 'controllers/DieuKhienXacThuc.php';
-            (new DieuKhienXacThuc())->$action();
+            $invokeAction(new DieuKhienXacThuc(), $action);
             break;
 
         case 'admin':
             require_once 'controllers/DieuKhienQuanTri.php';
             $ctrl   = new DieuKhienQuanTri();
             $method = ($action === '' || $action === 'index') ? 'dashboard' : $action;
-            if (method_exists($ctrl, $method)) {
-                $ctrl->$method($param);
-            } else {
-                $ctrl->dashboard();
-            }
+            $invokeAction($ctrl, $method, $param);
             break;
 
         case 'wishlist':
             require_once 'controllers/DieuKhienYeuThich.php';
-            (new DieuKhienYeuThich())->$action($param);
+            $invokeAction(new DieuKhienYeuThich(), $action, $param);
             break;
 
         case 'promotions':
@@ -118,7 +124,7 @@ try {
             $ctrl   = new DieuKhienAPI();
             $method = $action;
             if ($param) $method .= ucfirst($param);
-            if (method_exists($ctrl, $method)) {
+            if (!str_starts_with($method, '__') && is_callable([$ctrl, $method])) {
                 $ctrl->$method();
             } else {
                 http_response_code(404);
