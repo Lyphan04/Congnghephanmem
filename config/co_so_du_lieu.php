@@ -6,7 +6,16 @@
 
 // ===== Site Configuration =====
 define('SITE_NAME', 'VQSTORE');
-define('SITE_URL', 'http://localhost/laptop_store');
+
+// Tự động nhận diện SITE_URL linh hoạt theo môi trường (chạy tốt trên cả Windows và Ubuntu/Linux)
+if (!defined('SITE_URL')) {
+    $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? 'https://' : 'http://';
+    $httpHost = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
+    $baseFolder = ($scriptDir === '/' || $scriptDir === '\\' || $scriptDir === '.') ? '' : rtrim($scriptDir, '/');
+    define('SITE_URL', $scheme . $httpHost . $baseFolder);
+}
+
 define('ADMIN_URL', SITE_URL . '/admin');
 define('UPLOAD_URL', SITE_URL . '/tai_len');
 define('ASSETS_URL', SITE_URL . '/assets');

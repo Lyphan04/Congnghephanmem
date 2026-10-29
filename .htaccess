@@ -1,11 +1,6 @@
 # TechStore - URL Rewriting
 
 RewriteEngine On
-RewriteBase /laptop_store-main/
-
-# Redirect to HTTPS (uncomment in production)
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Block direct access to sensitive directories
 RewriteRule ^config/ - [F,L]
@@ -40,4 +35,4 @@ Options -Indexes
 </IfModule>
 
 # Custom error pages
-ErrorDocument 404 /laptop_store-main/index.php?url=404
+ErrorDocument 404 index.php?url=404

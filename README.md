@@ -134,6 +134,72 @@ laptop_store-main/
 
 ---
 
+## 🐧 Hướng Dẫn Triển Khai & Chạy Trên Ubuntu (Linux)
+
+Dự án hoàn toàn tương thích và chạy tối ưu trên môi trường **Ubuntu (LAMP Stack)**:
+
+### Bước 1: Cài đặt LAMP Stack trên Ubuntu
+Mở Terminal trên Ubuntu và chạy các lệnh:
+```bash
+sudo apt update
+sudo apt install apache2 mysql-server php libapache2-mod-php php-mysql php-curl php-mbstring -y
+```
+
+### Bước 2: Bật module URL Rewrite cho Apache
+```bash
+sudo a2enmod rewrite
+```
+Mở file cấu hình Apache:
+```bash
+sudo nano /etc/apache2/apache2.conf
+```
+Tìm đến khối `<Directory /var/www/>` và đổi `AllowOverride None` thành `AllowOverride All`:
+```apache
+<Directory /var/www/>
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+</Directory>
+```
+Lưu lại (`Ctrl + O`, `Enter`, `Ctrl + X`) rồi khởi động lại Apache:
+```bash
+sudo systemctl restart apache2
+```
+
+### Bước 3: Đưa mã nguồn vào thư mục web
+```bash
+# Di chuyển vào thư mục web
+cd /var/www/html
+
+# Clone dự án từ GitHub
+sudo git clone https://github.com/Lyphan04/Congnghephanmem.git laptop_store
+
+# Phân quyền cho Apache và thư mục upload ảnh
+sudo chown -R www-data:www-data /var/www/html/laptop_store
+sudo chmod -R 775 /var/www/html/laptop_store/tai_len
+```
+
+### Bước 4: Tạo CSDL & Import dữ liệu
+```bash
+# Đăng nhập MySQL
+sudo mysql -u root
+
+# Trong MySQL console, tạo CSDL:
+CREATE DATABASE laptop_store CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+EXIT;
+
+# Import file SQL mẫu vào CSDL:
+sudo mysql -u root laptop_store < /var/www/html/laptop_store/co_so_du_lieu/laptop_store.sql
+```
+
+### Bước 5: Cấu hình bí mật và trải nghiệm
+Chỉnh sửa file cấu hình kết nối DB (nếu MySQL có đặt mật khẩu):
+```bash
+sudo nano /var/www/html/laptop_store/config/bi_mat.php
+```
+Mở trình duyệt trên Ubuntu và truy cập:
+- `http://localhost/laptop_store` (hoặc `http://<IP_Ubuntu>/laptop_store` nếu truy cập từ máy khác).
+
 ## 🔑 Tài Khoản Trải Nghiệm Mẫu
 
 Sau khi import file `co_so_du_lieu/laptop_store.sql`, bạn có thể đăng nhập bằng các tài khoản mẫu sau:
